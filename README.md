@@ -1,7 +1,7 @@
 # MicrosoftSentinelAutomation
 Some PowerShell scripts to extract MS Sentinel automation rules
 
-## Export-AzSentinelAutomationRuletoJSON
+## Export-AzSentinelAutomationRule
 The Export-AzSentinelAutomationRule cmdlet exports one or more Automation rules from the specified workspace.  If you specify the AutomationRuleId parameter, a single Automation rule is exported.  If you do not specify the AutomationRuleId parameter, all the automation reuls in the specified workspace will be exported.  The filename will be the automation rule's <displayName>.json
 
 ## Get-AzSentinelAutomationRule
