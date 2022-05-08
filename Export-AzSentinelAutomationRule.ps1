@@ -5,7 +5,7 @@
     .DESCRIPTION
         The Export-AzSentinelAutomationRule cmdlet exports one or more Automation rules from the specified workspace.  If you specify the 
         AutomationRuleId parameter, a single Automation rule is exported.  If you do not specify the AutomationRuleId parameter, all the 
-        automation reuls in the specified workspace will be exported.  The filename will be the automation rule's <displayName>.json
+        automation rules in the specified workspace will be exported.  The filename format is <displayName>.json
     .PARAMETER WorkSpaceName
         Enter the Log Analytics workspace name, this is a required parameter
     .PARAMETER ResourceGroupName
