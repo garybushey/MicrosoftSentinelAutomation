@@ -29,7 +29,7 @@ param (
     [Parameter(Mandatory = $true)]
     [string]$ResourceGroupName
 )
-Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupName, $rulename) {
+Function Export-AzSentinelAutomationRuletoJSON ($workspaceName, $resourceGroupName) {
 
 
     #Setup the Authentication header needed for the REST calls
@@ -54,6 +54,4 @@ Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupNa
     }
 }
 
-
-
-Export-AzSentinelAutomationRuleToJSON $WorkSpaceName $ResourceGroupName $AutomationRuleName 
+Export-AzSentinelAutomationRuletoJSON $WorkSpaceName $ResourceGroupName 

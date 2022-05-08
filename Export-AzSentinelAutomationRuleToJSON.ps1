@@ -10,17 +10,15 @@
         Enter the Log Analytics workspace name, this is a required parameter
     .PARAMETER ResourceGroupName
         Enter the Log Analytics workspace name, this is a required parameter
-    .PARAMETER AutomationRuleName
-        Enter the Microsoft Sentinel Automation rule name, this is a required parameter
+    .PARAMETER AutomationRuleId
+        Enter the Microsoft Sentinel Automation rule Id, this is a required parameter
     .NOTES
         AUTHOR: Gary Bushey
         LASTEDIT: 8 May 2022
     .EXAMPLE
         Export-AzSentinelAutomationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" -AutomationRuleName "rulename"
         In this example a single JSON file will be created containing the JSON for the automation rule
-    .EXAMPLE
-        Export-AzSentinelAutimationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" -AutomationRuleName "rulename"
-        In this example a single JSON file will be created containing the JSON for the automation rule
+
 #>
 
 [CmdletBinding()]
@@ -32,7 +30,7 @@ param (
     [string]$ResourceGroupName,
 
     [Parameter(Mandatory = $true)]
-    [string]$AutomationRuleName
+    [string]$AutomationRuleId
 )
 Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupName, $rulename) {
 
@@ -60,4 +58,4 @@ Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupNa
 
 
 
-Export-AzSentinelAutomationRuleToJSON $WorkSpaceName $ResourceGroupName $AutomationRuleName 
+Export-AzSentinelAutomationRuleToJSON $WorkSpaceName $ResourceGroupName $AutomationRuleId 
