@@ -1,11 +1,11 @@
 #requires -version 6.2
 <#
     .SYNOPSIS
-        Gets a specific or all Automation rules.
+        Export one or more automation rules to JSON file(s)
     .DESCRIPTION
-        The Get-AzSentinelAutomationRule cmdlet gets one or more Automation rules from the specified workspace.  If you specify the 
-        AutomationRuleId parameter, a single Automation rule is returned.  If you do not specify the AutomationRuleId parameter, all the 
-        automation reuls in the specified workspace will be returned
+        The Export-AzSentinelAutomationRule cmdlet exports one or more Automation rules from the specified workspace.  If you specify the 
+        AutomationRuleId parameter, a single Automation rule is exported.  If you do not specify the AutomationRuleId parameter, all the 
+        automation reuls in the specified workspace will be exported.  The filename will be the automation rule's <displayName>.json
     .PARAMETER WorkSpaceName
         Enter the Log Analytics workspace name, this is a required parameter
     .PARAMETER ResourceGroupName
@@ -16,11 +16,9 @@
         AUTHOR: Gary Bushey
         LASTEDIT: 8 May 2022
     .EXAMPLE
-        Get-AzSentinelAutomationRule -WorkspaceName "workspacename" -ResourceGroupName "rgname" -AutomationRuleId
-        In this example the specified automation rule will be listed as JSON
-    .EXAMPLE
-        Get-AzSentinelAutomationRule -WorkspaceName "workspacename" -ResourceGroupName "rgname" 
-        In this example all the automation rules will be listed as JSON
+        Export-AzSentinelAutomationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" -AutomationRuleName "rulename"
+        In this example a single JSON file will be created containing the JSON for the automation rule
+
 #>
 
 [CmdletBinding()]
@@ -34,7 +32,7 @@ param (
     [Parameter(Mandatory = $false)]
     [string]$AutomationRuleId
 )
-Function Get-AzSentinelAutomationRule ($workspaceName, $resourceGroupName, $rulename) {
+Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupName, $rulename) {
 
 
     #Setup the Authentication header needed for the REST calls
@@ -50,20 +48,26 @@ Function Get-AzSentinelAutomationRule ($workspaceName, $resourceGroupName, $rule
     $SubscriptionId = (Get-AzContext).Subscription.Id
 
     if ($rulename) {
+        #Load the templates so that we can copy the information as needed
         $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2021-10-01-preview"
         $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader )
 
-        ConvertTo-Json $results -depth 100
+        $resultJson = ConvertTo-Json $results -depth 100
+        $resultDisplayName = $results.properties.displayName
+        $resultJson | Out-File ($resultDisplayName + ".json")
     }
     else {
         $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/?api-version=2021-10-01-preview"
         $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader ).value
 
         foreach ($result in $results) {
-            ConvertTo-Json $result -depth 100
+            $resultJson = ConvertTo-Json $result -depth 100
+            $resultDisplayName = $result.properties.displayName
+            $resultJson | Out-File ($resultDisplayName + ".json")
         }
     }
-    
 }
 
-Get-AzSentinelAutomationRule $WorkSpaceName $ResourceGroupName $AutomationRuleId
+
+
+Export-AzSentinelAutomationRuleToJSON $WorkSpaceName $ResourceGroupName $AutomationRuleId 
