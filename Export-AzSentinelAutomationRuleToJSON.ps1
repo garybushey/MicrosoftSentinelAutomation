@@ -17,10 +17,10 @@
         LASTEDIT: 8 May 2022
     .EXAMPLE
         Export-AzSentinelAutomationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" -AutomationRuleName "rulename"
-        In this example you individual files names after the individual automation rule
+        In this example a single JSON file will be created containing the JSON for the automation rule
     .EXAMPLE
         Export-AzSentinelAutimationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" -AutomationRuleName "rulename"
-        In this example you individual files names after the individual automation rule
+        In this example a single JSON file will be created containing the JSON for the automation rule
 #>
 
 [CmdletBinding()]
@@ -50,13 +50,12 @@ Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupNa
     $SubscriptionId = (Get-AzContext).Subscription.Id
 
     #Load the templates so that we can copy the information as needed
-    $url="https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2021-10-01-preview"
+    $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2021-10-01-preview"
     $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader )
 
-    $results | ConvertTo-Json -depth 100 | Out-File ($results.properties.displayName + ".json")
-    #foreach ($result in $results.Where{$_.properties.displayname -eq $rulename}) {
-    #    $result | ConvertTo-Json -depth 100 | Out-File ($result.properties.displayName +".json")
-    #}
+    $resultJson = ConvertTo-Json $results -depth 100
+    $resultDisplayName = $results.properties.displayName
+    $resultJson | Out-File ($resultDisplayName + ".json")
 }
 
 

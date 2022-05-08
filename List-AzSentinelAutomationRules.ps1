@@ -1,10 +1,10 @@
 #requires -version 6.2
 <#
     .SYNOPSIS
-        This command will generate individual JSON files containing the information for each  Microsoft Sentinel
+        This command will list the information for each  Microsoft Sentinel
         automation rule.  Requires you to already be logged into Azure and in the correct subscription.
     .DESCRIPTION
-         This command will generate individual JSON files containing the information for each  Microsoft Sentinel
+        This command will list the information for each  Microsoft Sentinel
         automation rule.  Requires you to already be logged into Azure and in the correct subscription.
     .PARAMETER WorkSpaceName
         Enter the Log Analytics workspace name, this is a required parameter
@@ -14,11 +14,11 @@
         AUTHOR: Gary Bushey
         LASTEDIT: 8 May 2022
     .EXAMPLE
-        Export-AzSentinelAutomationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" 
-        In this example each automation rule will be exported to a separate JSON file 
+        List-AzSentinelAutomationRules -WorkspaceName "workspacename" -ResourceGroupName "rgname" 
+        In this example all the automation rules will be listed as JSON
     .EXAMPLE
         Export-AzSentinelAutimationRuletoJSON -WorkspaceName "workspacename" -ResourceGroupName "rgname" 
-         In this example each automation rule will be exported to a separate JSON file
+        In this example all the automation rules will be listed as JSON
 #>
 
 [CmdletBinding()]
@@ -47,11 +47,12 @@ Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupNa
     $url="https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/?api-version=2021-10-01-preview"
     $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader ).value
 
-    foreach ($result in $results) {
-        $resultJson = ConvertTo-Json $result -depth 100
-        $resultDisplayName = $result.properties.displayName
-        $resultJson | Out-File ($resultDisplayName +".json")
-    }
+    ConvertTo-Json $results -depth 100
+    # foreach ($result in $results) {
+    #     $resultJson = ConvertTo-Json $result -depth 100
+    #     $resultDisplayName = $result.properties.displayName
+    #     $resultJson | Out-File ($resultDisplayName +".json")
+    # }
 }
 
 
