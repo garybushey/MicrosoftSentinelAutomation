@@ -49,7 +49,7 @@ Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupNa
 
     if ($rulename) {
         #Load the templates so that we can copy the information as needed
-        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2021-10-01-preview"
+        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2022-12-01-preview"
         $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader )
 
         $resultJson = ConvertTo-Json $results -depth 100
@@ -57,7 +57,7 @@ Function Export-AzSentinelAutomationRuleToJSON ($workspaceName, $resourceGroupNa
         $resultJson | Out-File ($resultDisplayName + ".json")
     }
     else {
-        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/?api-version=2021-10-01-preview"
+        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/?api-version=2022-12-01-preview"
         $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader ).value
 
         foreach ($result in $results) {

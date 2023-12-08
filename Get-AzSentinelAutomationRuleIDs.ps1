@@ -41,7 +41,7 @@ Function Get-AzSentinelAutomationRuleIDs ($workspaceName, $resourceGroupName) {
     $SubscriptionId = (Get-AzContext).Subscription.Id
 
     #Load the templates so that we can copy the information as needed
-    $url="https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules?api-version=2019-01-01-preview"
+    $url="https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules?api-version=2022-12-01-preview"
     $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader ).value
 
     foreach ($result in $results) {
