@@ -50,13 +50,13 @@ Function Get-AzSentinelAutomationRule ($workspaceName, $resourceGroupName, $rule
     $SubscriptionId = (Get-AzContext).Subscription.Id
 
     if ($rulename) {
-        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2021-10-01-preview"
+        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/$($rulename)?api-version=2022-12-01-preview"
         $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader )
 
         ConvertTo-Json $results -depth 100
     }
     else {
-        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/?api-version=2021-10-01-preview"
+        $url = "https://management.azure.com/subscriptions/$($subscriptionId)/resourceGroups/$($resourceGroupName)/providers/Microsoft.OperationalInsights/workspaces/$($workspaceName)/providers/Microsoft.SecurityInsights/automationRules/?api-version=2022-12-01-preview"
         $results = (Invoke-RestMethod -Method "Get" -Uri $url -Headers $authHeader ).value
 
         foreach ($result in $results) {
